@@ -29,17 +29,19 @@ namespace Lab1WPF
         {
             string ip = IPBox.Text;
             string msg = MessageBox.Text;
+            Color color = ColorPicker.SelectedColor;
+            //Result.Text = color.ToString();
             Launch.IsEnabled = false;
             Client client = new Client();
             client.Notify += Client_Notyfy;
-            await Task.Run(() => { client.Connect(ip, msg); });
+            await Task.Run(() => { client.Connect(ip, color.ToString() + "⫻" + msg); });
         }
 
         private void Client_Notyfy(string responce)
         {
             Application.Current.Dispatcher.Invoke(new Action(() =>
             {
-                Result.Text = responce;
+                Result.Text = responce.Split("⫻")[1];
                 Launch.IsEnabled = true;
             }));
         }
